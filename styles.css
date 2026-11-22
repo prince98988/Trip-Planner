@@ -16,7 +16,7 @@
 * { box-sizing: border-box; }
 
 body {
-  min-width: 360px;
+  min-width: 320px;
   min-height: 100vh;
   margin: 0;
   color: var(--ink);
@@ -489,11 +489,11 @@ h1, h2, p { margin-top: 0; }
   .brand-mark { width: 28px; height: 28px; }
   .sidebar-label, .trip-mini, .day-navigation, .sidebar-add-day, .sidebar-bottom { display: none; }
   .main-content { margin-left: 0; }
-  .topbar { position: static; min-height: 55px; padding: 0 17px; }
-  .breadcrumb { max-width: 35%; overflow: hidden; white-space: nowrap; }
-  .topbar-actions { gap: 6px; }
+  .topbar { position: static; display: grid; min-height: 0; grid-template-columns: minmax(0,1fr); gap: 9px; padding: 11px 17px; }
+  .breadcrumb { max-width: none; overflow: hidden; white-space: nowrap; }
+  .topbar-actions { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; }
   .saved-status { display: none; }
-  .button { min-height: 32px; padding: 0 9px; font-size: 9px; }
+  .topbar-actions .button { width: 100%; min-height: 38px; padding: 0 6px; font-size: 9px; }
   .workspace { padding: 30px 17px 20px; }
   .page-heading { align-items: flex-start; gap: 12px; }
   .page-heading h1 { font-size: 32px; }
@@ -502,33 +502,64 @@ h1, h2, p { margin-top: 0; }
   .trip-fields { gap: 12px; }
   .trip-details { padding: 16px; }
   .essentials-section { padding: 16px; }
-  .activity-row { grid-template-columns: 16px 70px minmax(0,1fr) minmax(0,1fr) 27px; gap: 7px; }
+  .field input { height: 42px; font-size: 12px; }
+  .essential-form > input, .essential-form .button { min-height: 42px; }
+  .essential-suggestions button { min-height: 32px; padding: 0 10px; font-size: 9px; }
+  .day-date { height: 36px; }
+  .day-drag-handle { width: 36px; height: 40px; font-size: 19px; touch-action: none; }
+  .activity-drag-handle { width: 36px; height: 40px; font-size: 18px; touch-action: none; }
+  .activity-row { grid-template-columns: 36px 70px minmax(0,1fr) minmax(0,1fr) 27px; gap: 7px; }
   .activity-field-notes { grid-column: 3 / 5; }
   .remove-activity { grid-column: 5; grid-row: 1; }
+  .activity-field input { height: 38px; font-size: 11px; }
+  .icon-button { min-width: 32px; min-height: 32px; }
 }
 @media (max-width: 470px) {
-  .topbar { padding: 0 12px; }
+  .topbar { gap: 8px; padding: 10px 13px; }
   .breadcrumb > span:first-child, .crumb-chevron { display: none; }
-  .breadcrumb { max-width: 27%; font-size: 9px; }
-  .topbar-actions { gap: 4px; }
-  .button { gap: 4px; padding: 0 7px; font-size: 8px; }
+  .breadcrumb { max-width: none; font-size: 10px; }
+  .topbar-actions { gap: 5px; }
+  .topbar-actions .button { min-height: 40px; gap: 4px; padding: 0 4px; font-size: 9px; }
+  .topbar-actions .button span { font-size: 12px; }
   .workspace { padding-right: 12px; padding-left: 12px; }
   .page-heading h1 { font-size: 29px; }
-  .trip-date-badge { padding: 7px; }
+  .trip-date-badge { max-width: 145px; padding: 7px; line-height: 1.4; }
   .trip-fields { grid-template-columns: 1fr 1fr; }
-  .field input { padding: 0 7px; font-size: 9px; }
+  .field input { padding: 0 8px; font-size: 11px; }
   .section-title-row h2, .itinerary-heading h2 { font-size: 13px; }
-  .day-card-header { padding: 10px; }
+  .day-card-header { min-height: 62px; padding: 9px 10px; }
   .day-heading-main { gap: 8px; }
-  .day-date { width: 105px; }
+  .day-number { width: 32px; height: 32px; }
+  .day-date { width: 108px; height: 36px; font-size: 10px; }
   .activity-list { padding: 0 12px; }
-  .activity-row { grid-template-columns: 16px 60px minmax(0,1fr) 25px; }
-  .activity-field-location, .activity-field-notes { grid-column: 3; }
-  .activity-field-notes { grid-row: auto; }
-  .remove-activity { grid-column: 4; grid-row: 1; }
-  .activity-time::before { left: -12px; }
+  .activity-row { grid-template-columns: 36px minmax(0,1fr) 30px; gap: 8px; padding: 10px 0; }
+  .activity-time { grid-column: 2; grid-row: 2; }
+  .activity-field-location { grid-column: 2; grid-row: 3; }
+  .activity-field-notes { grid-column: 2; grid-row: 4; }
+  .activity-time::before { display: none; }
+  .activity-field label { font-size: 8px; }
+  .activity-field input { height: 40px; padding: 0 10px; font-size: 12px; }
+  .activity-field input[type="time"] { padding: 0 8px; font-size: 12px; }
+  .remove-activity { grid-column: 3; grid-row: 1; margin: 0; }
+  .activity-footer { padding-bottom: 11px; }
+  .add-activity { min-height: 34px; font-size: 10px; }
+  .essentials-section { padding: 15px 13px; }
+  .essential-item { min-height: 42px; grid-template-columns: 23px minmax(0,1fr) 32px; }
+  .essential-check input { width: 18px; height: 18px; }
+  .essential-name { min-height: 34px; font-size: 12px; }
+  .remove-essential { width: 30px; height: 30px; }
   .welcome-card { padding-right: 3px; padding-left: 3px; }
   .welcome-card h1 { font-size: 38px; }
+}
+@media (max-width: 360px) {
+  .topbar { padding-right: 10px; padding-left: 10px; }
+  .topbar-actions { gap: 4px; }
+  .topbar-actions .button { font-size: 8px; }
+  .workspace { padding-right: 10px; padding-left: 10px; }
+  .day-card-header { padding-right: 8px; padding-left: 8px; }
+  .day-heading-main { gap: 6px; }
+  .day-date { width: 96px; }
+  .day-header-actions { gap: 2px; }
 }
 
 @media print {

@@ -2,6 +2,8 @@
 
 Open `index.html` in a modern browser to use the planner. Each launch starts with a choice to open an existing Excel itinerary or create a new one. Your work stays in the browser until you export it.
 
+The layout adapts to phones and tablets, with stacked activity fields and larger touch targets on small screens.
+
 ## Plan and share
 
 - Add trip details and dates, then add days and activities with times, locations, and notes.
