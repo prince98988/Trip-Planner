@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f7f8" />
+    <title>Wayfarer — Trip planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="Wayfarer home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M5 22.5 12.5 7l4 9 3-5L27 25H8.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="23.5" cy="8.5" r="2" fill="currentColor" />
+            </svg>
+          </span>
+          <span>wayfarer<span class="brand-period">.</span></span>
+        </a>
+
+        <div class="sidebar-label">YOUR TRIP</div>
+        <div class="trip-mini">
+          <span class="trip-mini-icon" aria-hidden="true">✦</span>
+          <div class="trip-mini-copy">
+            <span id="sidebar-trip-name">Untitled trip</span>
+            <small id="sidebar-trip-destination">Add a destination</small>
+          </div>
+        </div>
+
+        <div class="sidebar-label days-label">ITINERARY <span id="sidebar-day-count">0 days</span></div>
+        <nav class="day-navigation" id="day-navigation" aria-label="Trip days"></nav>
+        <button class="sidebar-add-day" id="sidebar-add-day" type="button">
+          <span aria-hidden="true">＋</span> Add a day
+        </button>
+
+        <div class="sidebar-bottom">
+          <div class="help-card">
+            <span class="help-icon" aria-hidden="true">✧</span>
+            <div>
+              <strong>Good trips start here.</strong>
+              <span>Plan a little, wander a lot.</span>
+            </div>
+          </div>
+          <button class="text-button sidebar-import" id="sidebar-import" type="button">
+            <span aria-hidden="true">↥</span> Open another itinerary
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>My trips</span><span class="crumb-chevron">/</span><strong id="breadcrumb-trip-name">New itinerary</strong></div>
+          <div class="topbar-actions">
+            <span class="saved-status"><span class="status-dot"></span> Export to keep changes</span>
+            <button class="button button-outline" id="import-button" type="button">
+              <span aria-hidden="true">↥</span> Import Excel
+            </button>
+            <button class="button button-pdf" id="pdf-button" type="button">
+              <span aria-hidden="true">▤</span> Make PDF
+            </button>
+            <button class="button button-primary" id="export-button" type="button">
+              <span aria-hidden="true">↓</span> Export Excel
+            </button>
+          </div>
+        </header>
+
+        <section class="workspace">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-star">✳</span> YOUR NEXT ADVENTURE</div>
+              <h1>Plan your <span>escape.</span></h1>
+              <p>A little structure. A lot of room to explore.</p>
+            </div>
+            <div class="trip-date-badge" id="trip-date-badge">
+              <span class="calendar-icon" aria-hidden="true">▦</span>
+              <span id="trip-date-label">Choose your dates</span>
+            </div>
+          </div>
+
+          <section class="trip-details panel" aria-label="Trip details">
+            <div class="section-title-row">
+              <div>
+                <h2>The big picture</h2>
+                <p>First, the details that make it yours.</p>
+              </div>
+              <span class="edit-hint"><span aria-hidden="true">✎</span> EDIT ANYTIME</span>
+            </div>
+            <div class="trip-fields">
+              <label class="field field-trip-name">
+                <span>TRIP NAME</span>
+                <input id="trip-name" type="text" placeholder="e.g. Summer in Italy" maxlength="80" />
+              </label>
+              <label class="field field-destination">
+                <span>WHERE TO?</span>
+                <span class="input-with-icon">
+                  <span aria-hidden="true">⌖</span>
+                  <input id="trip-destination" type="text" placeholder="Add a destination" maxlength="100" />
+                </span>
+              </label>
+              <label class="field">
+                <span>START DATE</span>
+                <input id="trip-start" type="date" />
+              </label>
+              <label class="field">
+                <span>END DATE</span>
+                <input id="trip-end" type="date" />
+              </label>
+            </div>
+          </section>
+
+          <section class="essentials-section panel" aria-label="Trip essentials">
+            <div class="essentials-heading">
+              <div>
+                <h2>Trip essentials <span class="essentials-count" id="essentials-count">0 added</span></h2>
+                <p>Keep the must-haves together so nothing gets left behind.</p>
+              </div>
+              <span class="essentials-heading-icon" aria-hidden="true">✓</span>
+            </div>
+            <form class="essential-form" id="essential-form">
+              <label class="sr-only" for="essential-input">Add an essential</label>
+              <input id="essential-input" type="text" placeholder="Add something you need for this trip…" maxlength="120" />
+              <button class="button button-primary" type="submit"><span aria-hidden="true">＋</span> Add item</button>
+            </form>
+            <div class="essential-suggestions">
+              <span>QUICK ADD</span>
+              <button type="button" data-essential-suggestion="Passport / ID">Passport / ID</button>
+              <button type="button" data-essential-suggestion="Tickets">Tickets</button>
+              <button type="button" data-essential-suggestion="Medication">Medication</button>
+              <button type="button" data-essential-suggestion="Charger">Charger</button>
+            </div>
+            <div class="essentials-list" id="essentials-list"></div>
+          </section>
+
+          <section class="itinerary-section">
+            <div class="itinerary-heading">
+              <div>
+                <div class="section-title-row itinerary-title-row">
+                  <div>
+                    <h2>Your itinerary <span class="day-count-pill" id="day-count-pill">0 days</span></h2>
+                    <p>Drag a grip to reorder days or move activities between them.</p>
+                  </div>
+                </div>
+              </div>
+              <button class="button button-outline add-day-button" id="add-day-button" type="button">
+                <span aria-hidden="true">＋</span> Add a day
+              </button>
+            </div>
+            <div class="days-list" id="days-list"></div>
+          </section>
+
+          <footer class="page-footer">
+            <span>Made for the memories, not just the map.</span>
+            <span class="footer-mark" aria-hidden="true">✳</span>
+          </footer>
+        </section>
+      </main>
+    </div>
+
+    <input id="excel-file-input" type="file" accept=".xlsx,.xls,.xlsm" hidden />
+    <section class="print-document" id="print-document" aria-hidden="true"></section>
+
+    <section class="welcome-overlay" id="welcome-overlay" aria-label="Start your itinerary">
+      <div class="welcome-card">
+        <div class="welcome-logo">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M5 22.5 12.5 7l4 9 3-5L27 25H8.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="23.5" cy="8.5" r="2" fill="currentColor" />
+            </svg>
+          </span>
+          <span>wayfarer<span class="brand-period">.</span></span>
+        </div>
+        <div class="welcome-sparkle" aria-hidden="true">✳</div>
+        <div class="eyebrow">YOUR NEXT CHAPTER</div>
+        <h1>Where to<br /><span>this time?</span></h1>
+        <p>Pick up where you left off with an Excel itinerary, or start with a blank page.</p>
+        <button class="welcome-option" id="welcome-import" type="button">
+          <span class="option-icon import-option-icon" aria-hidden="true">↥</span>
+          <span class="option-copy"><strong>Open an Excel itinerary</strong><small>Choose an .xlsx or .xls file from your device</small></span>
+          <span class="option-arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="welcome-option" id="welcome-new" type="button">
+          <span class="option-icon new-option-icon" aria-hidden="true">＋</span>
+          <span class="option-copy"><strong>Start a new itinerary</strong><small>A fresh start for wherever you're headed</small></span>
+          <span class="option-arrow" aria-hidden="true">→</span>
+        </button>
+        <div class="welcome-footnote"><span class="lock-icon" aria-hidden="true">◇</span> Your itinerary stays in this browser session; export it to keep it.</div>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
